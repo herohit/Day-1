@@ -11,15 +11,18 @@
 </head>
 
 <body>
-    <h1>Login</h1>
+    <div class="vh-100 d-flex flex-column align-items-center justify-content-center">
 
-    <form method="POST" class="w-50 m-auto">
-        {% csrf_token %}
-        {{form | crispy}}
+        <h1>Login</h1>
 
-        <button type="submit">Log In</button>
-    </form>
-    <a href="{% url 'register' %}">Register</a>
+        <form method="POST" class="w-50">
+            {% csrf_token %}
+            {{form | crispy}}
+
+            <button type="submit" class="btn btn-primary px-5 py-2 my-3">Log In</button>
+            <a href="{% url 'register' %}" class="mx-5">Register</a>
+        </form>
+    </div>
 </body>
 
 </html>

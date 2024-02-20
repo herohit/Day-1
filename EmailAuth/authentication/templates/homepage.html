@@ -45,7 +45,7 @@
         {% endfor %}
 
         <h1>This is homepage</h1>
-        <h1>Welcome, {{ username }}</h1>
+        <h1>Welcome, "{{ username }}"</h1>
 
         {% if not current_user_profile.is_email_verified %}
         <div class="p-4 ">
@@ -57,7 +57,7 @@
         {% if user.is_authenticated %}
         <form action="{% url 'logout' %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="p-3">Logout</button>
+            <button type="submit" class="btn btn-primary px-5 py-2 mt-2">Logout</button>
         </form>
         {% endif %}
 
