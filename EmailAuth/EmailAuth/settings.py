@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -88,6 +90,9 @@ DATABASES = {
     }
 }
 
+# DATABASES['default'] =dj_database_url.parse( 'postgres://test_uvv5_user:AmaWKHcZ1vyF8xRU96otkmGSUBryl0gB@dpg-cna3v4mv3ddc73d8m4l0-a.singapore-postgres.render.com/test_uvv5')
+DATABASES['default'] =dj_database_url.parse( 'postgres://dbgfdev_d20l_user:RhF97dSihlWJbi2QjvP0zb4pMnxke1pt@dpg-cn9ru02cn0vc738ttl8g-a.singapore-postgres.render.com/dbgfdev_d20l')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -129,3 +134,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
