@@ -63,10 +63,10 @@ def register(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
-
+@login_required(login_url='/login/')
 def verify_otp(request):
     if request.method == 'POST':
-        entered_otp = request.POST.get('otp')
+        entered_otp = request.POST.get('otp').strip()
 
         
         profile = Profile.objects.get(user=request.user)
