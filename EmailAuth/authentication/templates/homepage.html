@@ -8,13 +8,51 @@
     <title>Homepage</title>
 </head>
 
+<style>
+    nav {
+        height: 10vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 5vw;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: white;
+        padding: 1vw;
+    }
+</style>
+
 <body>
+    <nav class="w-100 bg-black">
+        <a href="{% url 'home' %}">Home</a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'editProfile' %}">Edit Profile</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Login</a>
+        {% endif %}
+
+    </nav>
 
     <div class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center">
-
+        {% for message in messages %}
+        <div style=" font-size: 3vw;" class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
 
         <h1>This is homepage</h1>
         <h1>Welcome, {{ username }}</h1>
+
+        {% if not current_user_profile.is_email_verified %}
+        <div class="p-4 ">
+            <a href="{% url 'verify_otp' %}">Verify your email to get full access</a>
+        </div>
+        {% endif %}
+
 
         {% if user.is_authenticated %}
         <form action="{% url 'logout' %}" method="POST">
