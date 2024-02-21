@@ -18,6 +18,7 @@ http://127.0.0.1:8000/register/
         Users receive an OTP via email after registration.
         They can enter the OTP on the verification page to confirm their email address.
         If the OTP matches the one sent, the user's email is marked as verified, granting them full access to the site.
+        Also the otp is valid for upto 15 min . After expire a new otp is sent to the current logged user.
 
 Url Route:
 ```bash
