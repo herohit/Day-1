@@ -90,7 +90,6 @@ DATABASES = {
     }
 }
 
-# DATABASES['default'] =dj_database_url.parse( 'postgres://test_uvv5_user:AmaWKHcZ1vyF8xRU96otkmGSUBryl0gB@dpg-cna3v4mv3ddc73d8m4l0-a.singapore-postgres.render.com/test_uvv5')
 DATABASES['default'] =dj_database_url.parse( 'postgres://dbgfdev_d20l_user:RhF97dSihlWJbi2QjvP0zb4pMnxke1pt@dpg-cn9ru02cn0vc738ttl8g-a.singapore-postgres.render.com/dbgfdev_d20l')
 
 
