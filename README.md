@@ -197,6 +197,12 @@ if not send_otp_email(email, otp):
     return HttpResponse('Failed to send OTP email. Please try again later.')
 ```
 
+3. Go to models.py and uncomment this line marked as #.
+```bash
+def set_email_verification_code(self):
+        other code here
+        # send_otp_email(self.email, self.email_verification_code)
+```
 ## Running the Project
 
 1. Navigate to the project_directory where the manage.py is located and Start the development server.
