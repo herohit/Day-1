@@ -7,11 +7,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 
 from django.contrib.auth.models import User
-from .utils import generate_otp
-from .utils import send_otp_email
+# from .utils import generate_otp
+from .utils import send_otp_email,is_otp_expired
 from django.contrib import messages
 
 from .decorator import email_verified_required
+from django.utils import timezone
+
 
 #homepage
 @login_required(login_url='/login/')
@@ -40,10 +42,17 @@ def register(request):
                 # Create user
                 user = User.objects.create_user(username=username, email=email, password=password)
 
-                otp = generate_otp()
+                # otp = generate_otp()
 
                 # Save email and OTP to profile
-                profile = Profile.objects.create(user=user, email=email, email_verification_code=otp)
+                # profile = Profile.objects.create(user=user, email=email, email_verification_code=otp)
+                profile = Profile.objects.create(user=user, email=email)
+
+                # to generate otp
+                otp = Profile.generate_otp()
+                profile.email_verification_code = otp
+                profile.email_verification_code_created_at = timezone.now()
+                profile.save()
 
 
                 user = authenticate(request, username=username, password=password)
@@ -65,26 +74,34 @@ def register(request):
 
 @login_required(login_url='/login/')
 def verify_otp(request):
+    profile = Profile.objects.get(user=request.user)
+    if profile.is_email_verified:
+        return redirect('home')
     if request.method == 'POST':
         entered_otp = request.POST.get('otp').strip()
 
         
-        profile = Profile.objects.get(user=request.user)
 
         # Verify the entered OTP
-        if entered_otp == profile.email_verification_code:
-            profile.is_email_verified = True
-            profile.save()
+        # if entered_otp == profile.email_verification_code:
+        #     profile.is_email_verified = True
+        #     profile.save()
+
+        if profile.verify_email_verification_code(entered_otp):
 
 
             messages.success(request, 'Email verification successful! Now you have full access to site')
             return redirect('home')
         else:
-            # OTP is incorrect
-            messages.error(request, 'Invalid OTP. Please try again.')
-            return render(request, 'verify_otp.html')
 
-    
+            # OTP is incorrect
+            # messages.error(request, 'Invalid OTP. Please try again.')
+            # return render(request, 'verify_otp.html')
+            if is_otp_expired(profile.email_verification_code_created_at):
+                profile.set_email_verification_code()
+                messages.warning(request, 'The OTP has expired. A new OTP has been sent to your email.')
+            else:
+                messages.error(request, 'Invalid OTP. Please try again.')
     return render(request, 'verify_otp.html')
 
 
