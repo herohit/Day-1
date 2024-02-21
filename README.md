@@ -203,7 +203,11 @@ if not send_otp_email(email, otp):
 def set_email_verification_code(self):
         other code here
         # send_otp_email(self.email, self.email_verification_code)
+<<<<<<< HEAD
 ```
+=======
+
+>>>>>>> 47f1ec24a135bf1683e0dd1aab0d391cf564e858
 ## Running the Project
 
 1. Navigate to the project_directory where the manage.py is located and Start the development server.
