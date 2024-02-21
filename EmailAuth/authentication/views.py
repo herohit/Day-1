@@ -42,10 +42,6 @@ def register(request):
                 # Create user
                 user = User.objects.create_user(username=username, email=email, password=password)
 
-                # otp = generate_otp()
-
-                # Save email and OTP to profile
-                # profile = Profile.objects.create(user=user, email=email, email_verification_code=otp)
                 profile = Profile.objects.create(user=user, email=email)
 
                 # to generate otp
@@ -82,10 +78,7 @@ def verify_otp(request):
 
         
 
-        # Verify the entered OTP
-        # if entered_otp == profile.email_verification_code:
-        #     profile.is_email_verified = True
-        #     profile.save()
+
 
         if profile.verify_email_verification_code(entered_otp):
 
@@ -94,9 +87,6 @@ def verify_otp(request):
             return redirect('home')
         else:
 
-            # OTP is incorrect
-            # messages.error(request, 'Invalid OTP. Please try again.')
-            # return render(request, 'verify_otp.html')
             if is_otp_expired(profile.email_verification_code_created_at):
                 profile.set_email_verification_code()
                 messages.warning(request, 'The OTP has expired. A new OTP has been sent to your email.')
